@@ -1,3 +1,4 @@
+import constants
 import re
 import time
 import json
@@ -19,7 +20,7 @@ class FetchWeather:
     def city(self, city):
         requesturl = "http://api.openweathermap.org/data/2.5/weather?q=" + city
         req = urllib2.Request(requesturl)
-        req.add_header('x-api-key', 'INSERTKEYHERE')
+        req.add_header('x-api-key', constants.OPENWEATHER)
         response = urllib2.urlopen(req)
         red = json.load(response)
         # return red
@@ -33,8 +34,7 @@ class FetchWeather:
 class slackky:
 
     def __init__(self):
-        self.slack_client1 = SlackClient(
-            "xoxb-INSERTKEYHERE")
+        self.slack_client1 = SlackClient(constants.SLACK)
 
     def play(self, slack_client, message):
         slack_client.api_call(
@@ -57,7 +57,7 @@ class slackky:
             text="Playing that funky music",
             as_user=True)
 
-        # pygame.init()
+        pygame.init()
         pygame.mixer.music.load(path)
         pygame.mixer.music.play()
 
