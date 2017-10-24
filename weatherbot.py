@@ -22,19 +22,56 @@ class FetchWeather:
         req = urllib2.Request(requesturl)
         req.add_header('x-api-key', constants.OPENWEATHER)
         response = urllib2.urlopen(req)
-        red = json.load(response)
-        # return red
-        # return red.type()
-        print json.dumps(red, indent=2)
-        if 'wind' in red and 'speed' in red['wind']:
-            wind = red['wind']
-            return wind['speed']
+        return json.load(response)
 
 
 class slackky:
 
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
+
+    def playFromPath(self, path):
+        pygame.init()
+        pygame.mixer.music.load(path)
+        pygame.mixer.music.play()
+
+    def routeMusicFromWeather(self, weatherCode):
+        folder = "/Volumes/Data/ProtoAudio/"
+
+        if weatherCode in (200, 210, 230):
+            self.playFromPath(folder + "thunder_light_rain.wav")
+        elif weatherCode in (201, 211, 231):
+            self.playFromPath(folder + "thunderstorm.wav")
+        elif weatherCode in (202, 212, 221, 232):
+            self.playFromPath(folder + "heavy_thunderstorm.wav")
+        elif weatherCode in (300, 301, 310, 500, 520):
+            self.playFromPath(folder + "light_rain.wav")
+        elif weatherCode in (302, 311, 313, 321, 501, 521):
+            self.playFromPath(folder + "rain.wav")
+        elif weatherCode in (312, 314, 502, 503, 504, 522, 531):
+            self.playFromPath(folder + "heavy_rain.wav")
+        elif weatherCode in (600, 601, 620, 621):
+            self.playFromPath(folder + "snow.wav")
+        elif weatherCode in (602, 622):
+            self.playFromPath(folder + "heavy_snow.wav")
+        elif weatherCode in (611, 612, 615, 906, 616):
+            self.playFromPath(folder + "hail.wav")
+        elif weatherCode in (800, 951, 801, 802, 904):
+            self.playFromPath(folder + "sunny_day.wav")
+        elif weatherCode in (952, 953, 803, 804):
+            self.playFromPath(folder + "light_wind.wav")
+        elif weatherCode in (701, 711, 721, 905, 954, 955, 903):
+            self.playFromPath(folder + "wind.wav")
+        elif weatherCode in (771, 956, 957, 958, 959):
+            self.playFromPath(folder + "heavy_wind.wav")
+        elif weatherCode in (731, 751, 761, 762):
+            self.playFromPath(folder + "sandy_wind.wav")
+        elif weatherCode == 781:
+            self.playFromPath(folder + "tornado.wav")
+        elif weatherCode in (901, 902, 962, 960, 961):
+            self.playFromPath(folder + "tropical_cyclone.wav")
+        else:
+            pass
 
     def play(self, slack_client, message):
         slack_client.api_call(
@@ -57,9 +94,7 @@ class slackky:
             text="Playing that funky music",
             as_user=True)
 
-        pygame.init()
-        pygame.mixer.music.load(path)
-        pygame.mixer.music.play()
+        self.playFromPath(path)
 
         slack_client.api_call(
             "chat.postMessage",
@@ -75,7 +110,18 @@ class slackky:
             as_user=True)
 
         api = FetchWeather()
-        windspeed = api.city(city)
+        weatherdata = api.city(city)
+        print json.dumps(weatherdata, indent=2)
+        if 'wind' in weatherdata and 'speed' in weatherdata['wind']:
+            wind = weatherdata['wind']
+            windspeed = wind['speed']
+        else:
+            pass
+
+        if 'weather' in weatherdata and 'id' in weatherdata['weather'][0]:
+            weather = weatherdata['weather'][0]
+            weatherId = weather['id']
+            self.routeMusicFromWeather(weatherId)
 
         slack_client.api_call(
             "chat.postMessage",
@@ -100,9 +146,12 @@ class slackky:
                 speedrounded),
             as_user=True)
 
-        ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-        ser.baudrate = 9600
-        ser.write(bytes(speedrounded))
+        try:
+            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+            ser.baudrate = 9600
+            ser.write(bytes(speedrounded))
+        except serial.SerialException:
+            print "Usb Not found"
 
         slack_client.api_call(
             "chat.postMessage",
@@ -142,9 +191,8 @@ class slackky:
 
                         print "Message received: %s" % json.dumps(message, indent=2)
 
-                        message_text = message['text'].\
-                            split("<@%s>" % slack_user_id)[1].\
-                            strip()
+                        message_text = message['text'].split(
+                            "<@%s>" % slack_user_id)[1].strip()
 
                         if re.match(r'.*(help).*', message_text, re.IGNORECASE):
 
