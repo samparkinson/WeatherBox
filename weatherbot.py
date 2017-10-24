@@ -36,10 +36,79 @@ class slackky:
         self.slack_client1 = SlackClient(
             "xoxb-INSERTKEYHERE")
 
-    def play(self, filepath):
-        pygame.init()
-        pygame.mixer.music.load(filepath)
+    def play(self, slack_client, message):
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Trying to play some music",
+            as_user=True)
+
+        path = "/Users/sam/DrizzleRain.wav"
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Song path: {0}.".format(path),
+            as_user=True)
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Playing that funky music",
+            as_user=True)
+
+        # pygame.init()
+        pygame.mixer.music.load(path)
         pygame.mixer.music.play()
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Music Played",
+            as_user=True)
+
+    def cityWeather(self, city, slack_client, message, message_text):
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Trying to get wind for city",
+            as_user=True)
+
+        api = FetchWeather()
+        windspeed = api.city(city)
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Wind for {0}: {1}.".format(
+                city, windspeed,),
+            as_user=True)
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Passing to serial..",
+            as_user=True)
+
+        speed = windspeed * 25
+        speedrounded = int(round(speed))
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Multiplied speed is: {0}".format(
+                speedrounded),
+            as_user=True)
+
+        ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+        ser.baudrate = 9600
+        ser.write(bytes(speedrounded))
+
+        slack_client.api_call(
+            "chat.postMessage",
+            channel=message['channel'],
+            text="Passed: %s%%." % message_text,
+            as_user=True)
 
     def main(self):
 
@@ -82,41 +151,12 @@ class slackky:
                             slack_client.api_call(
                                 "chat.postMessage",
                                 channel=message['channel'],
-                                text="The commands I understand are: music, rebootme and city[city name with no spaces],
+                                text="The commands I understand are: music, rebootme and city[city name with no spaces]",
                                 as_user=True)
 
                         elif re.match(r'.*(music).*', message_text, re.IGNORECASE):
 
-                            mes = message_text
-                            # song = mes.split(' ',1)[1]
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Trying to play some music",
-                                as_user=True)
-
-                            path = "/Users/sam/DrizzleRain.wav"
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Song path: {0}.".format(path),
-                                as_user=True)
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Playing that funky music",
-                                as_user=True)
-
-                            self.play(path)
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Music Played",
-                                as_user=True)
+                            self.play(slack_client, message)
 
                         elif re.match(r'.*(rebootme).*', message_text, re.IGNORECASE):
 
@@ -133,47 +173,8 @@ class slackky:
                             mes = message_text
                             city = mes.split(' ', 1)[1]
 
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Trying to get wind for city",
-                                as_user=True)
-
-                            api = FetchWeather()
-                            windspeed = api.city(city)
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Wind for {0}: {1}.".format(
-                                    city, windspeed,),
-                                as_user=True)
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Passing to serial..",
-                                as_user=True)
-
-                            speed = windspeed * 25
-                            speedrounded = int(round(speed))
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Multiplied speed is: {0}".format(
-                                    speedrounded),
-                                as_user=True)
-
-                            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-                            ser.baudrate = 9600
-                            ser.write(bytes(speedrounded))
-
-                            slack_client.api_call(
-                                "chat.postMessage",
-                                channel=message['channel'],
-                                text="Passed: %s%%." % message_text,
-                                as_user=True)
+                            self.cityWeather(
+                                city, slack_client, message, message_text)
 
                         else:
 
