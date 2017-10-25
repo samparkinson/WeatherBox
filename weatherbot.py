@@ -73,6 +73,8 @@ class slackky:
         else:
             pass
 
+        # If sound 741 / other fog sounds, take a look at doing sound based on a wind speed and possible a fog horn in there as well
+
     def play(self, slack_client, message):
         slack_client.api_call(
             "chat.postMessage",
