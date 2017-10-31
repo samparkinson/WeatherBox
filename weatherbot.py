@@ -1,3 +1,9 @@
+#todo   - Make pump stop after 30 s
+#       - Fix the issue with some sound files not having a match
+#       - Look at error handling and tests
+#       - Modulate Breeze (+ - speed to give a sense of not static)
+#       - Fix code to make sure it runs on raspberry pi
+
 import constants
 import re
 import time
@@ -29,6 +35,14 @@ class slackky:
 
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
+
+    def passSpeedToSerial(self, speed):
+        try:
+            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+            ser.baudrate = 9600
+            ser.write(bytes(speed))
+        except serial.SerialException:
+            print "Usb Not found"
 
     def playFromPath(self, path):
         pygame.init()
@@ -138,22 +152,35 @@ class slackky:
             text="Passing to serial..",
             as_user=True)
 
-        speed = windspeed * 25
-        speedrounded = int(round(speed))
+        if windspeed < 1:
+            speed = int(75)
+        elif windspeed < 2:
+            speed = int(100)
+        elif windspeed < 3:
+            speed = int(120)
+        elif windspeed < 4:
+            speed = int(140)
+        elif windspeed < 5:
+            speed = int(160)
+        elif windspeed < 6:
+            speed = int(180)
+        elif windspeed < 7:
+            speed = int(200)
+        elif windspeed < 8:
+            speed = int(215)
+        elif windspeed < 9:
+            speed = int(230)
+        elif windspeed > 9:
+            speed = int(250)
 
         slack_client.api_call(
             "chat.postMessage",
             channel=message['channel'],
-            text="Multiplied speed is: {0}".format(
-                speedrounded),
+            text="Adjusted speed is: {0}".format(
+                speed),
             as_user=True)
 
-        try:
-            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-            ser.baudrate = 9600
-            ser.write(bytes(speedrounded))
-        except serial.SerialException:
-            print "Usb Not found"
+        self.passSpeedToSerial(speed)
 
         slack_client.api_call(
             "chat.postMessage",
@@ -234,9 +261,12 @@ class slackky:
                                 text="Passing to serial..",
                                 as_user=True)
 
-                            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-                            ser.baudrate = 9600
-                            ser.write(message_text.encode())
+                            try:
+                                ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+                                ser.baudrate = 9600
+                                ser.write(bytes(message_text.encode()))
+                            except serial.SerialException:
+                                print "Usb Not found"
 
                             slack_client.api_call(
                                 "chat.postMessage",
