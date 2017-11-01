@@ -1,8 +1,8 @@
 #todo   - Make pump stop after 30 s
 #       - Fix the issue with some sound files not having a match
 #       - Look at error handling and tests
-#       - Modulate Breeze (+ - speed to give a sense of not static)
-#       - Fix code to make sure it runs on raspberry pi
+#       - Modulate Breeze (+ - speed to give a sense of not static) - Done
+#       - Make sure it runs on raspberry pi
 
 import constants
 import re
@@ -12,8 +12,10 @@ import os
 import urllib2
 from playsound import playsound
 import psutil
+import random
 import serial
 import threading
+import time
 import pygame
 from slackclient import SlackClient
 
@@ -30,19 +32,33 @@ class FetchWeather:
         response = urllib2.urlopen(req)
         return json.load(response)
 
-
 class slackky:
 
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
 
     def passSpeedToSerial(self, speed):
+        timeout = time.time() + 30   # 30 seconds from now
+
+        while True:
+            test = 0
+            if time.time() > timeout:
+                break
+            randomspeed = speed - random.randint(0,60)
+            try:
+                ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+                ser.baudrate = 9600
+                ser.write(bytes(randomspeed))
+            except serial.SerialException:
+                print "Usb Not found"
+            time.sleep(1)
+        
         try:
             ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
             ser.baudrate = 9600
-            ser.write(bytes(speed))
+            ser.write(bytes(0))
         except serial.SerialException:
-            print "Usb Not found"
+            print "Usb Not found"     
 
     def playFromPath(self, path):
         pygame.init()
