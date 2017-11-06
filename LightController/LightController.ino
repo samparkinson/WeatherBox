@@ -29,7 +29,8 @@ void setup() {
 void loop() {
   int brightness;
   int rando;
-  unsigned long startTime
+  unsigned long startTime;
+  int weatherCode;
   
   if (Serial.available() > 0) {
 
@@ -172,7 +173,9 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
-        
+        DmxMaster.write(1, 14);
+        DmxMaster.write(2, 171);
+        DmxMaster.write(3, 245);
       }
       // light rain - Slight blue
     }
@@ -181,7 +184,10 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
-        
+        DmxMaster.write(1, 163);
+        DmxMaster.write(2, 163);
+        DmxMaster.write(3, 163);
+        DmxMaster.write(4, 100);
       }
       // rain - Slight grey / dark / dim
     }
@@ -189,7 +195,10 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
-        
+        DmxMaster.write(1, 100);
+        DmxMaster.write(2, 100);
+        DmxMaster.write(3, 100);
+        DmxMaster.write(4, 60);
       }
       // heavy rain / more grey / darker / dimmer
     }
@@ -281,7 +290,38 @@ void loop() {
       }
       // Party Mode
     }
+
+    DmxMaster.write(1, 0);
+    DmxMaster.write(2, 0);
+    DmxMaster.write(3, 0);
+        
   }
+
+  DmxMaster.write(4, 100);
+  
+  DmxMaster.write(1, 255);
+  DmxMaster.write(2, 0);
+  DmxMaster.write(3, 0);
+
+  delay(2000);
+  
+  DmxMaster.write(1, 0);
+  DmxMaster.write(2, 255);
+  DmxMaster.write(3, 0);
+
+  delay(2000);
+
+  DmxMaster.write(1, 0);
+  DmxMaster.write(2, 0);
+  DmxMaster.write(3, 255);
+
+  delay(2000);
+
+  DmxMaster.write(1, 0);
+  DmxMaster.write(2, 0);
+  DmxMaster.write(3, 0);
+  DmxMaster.write(4, 255);
+  
 }
 
 
