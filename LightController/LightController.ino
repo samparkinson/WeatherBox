@@ -33,286 +33,340 @@ void loop() {
   int weatherCode;
   int randoChange;
   
-  if (Serial.available() > 0) {
+  if (Serial.available() >= 3) {
 
-    weatherCode = Serial.read();
+    String inString = Serial.readString();
+    weatherCode = inString.toInt();
 
-    startTime = millis();
+    Serial.println("WeatherCode" + weatherCode);
 
-    if (weatherCode == 200 || weatherCode == 210 || weatherCode == 230)
-    {
-      while ((startTime + 30000) >= millis())
-      {                
-        rando = random(50,100);
-
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-        
-        delay(10*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-        
-        delay(150*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-
-        delay(1000);
-      }
-    }
-    else if (weatherCode == 201 || weatherCode == 211 || weatherCode == 231)
-    {
-      while ((startTime + 30000) >= millis())
-      {
-        rando = random(30,80);
-
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-        /* Update DMX channel 1 to new brightness */
-        
-        /* Small delay to slow down the ramping */
-        delay(10*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-        
-        delay(150*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-
-        delay(1000);
-      }
-    }
-    else if (weatherCode == 202 || weatherCode == 212 || weatherCode == 221 || weatherCode == 232)
-    {
-      while ((startTime + 30000) >= millis())
-      {
-        rando = random(1,60);
-
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-
-        delay(10*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-
-        delay(150*rando);
-    
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-    
-        delay(10);
-        
-        DmxMaster.write(1, 0);
-        DmxMaster.write(2, 0);
-        DmxMaster.write(3, 0);
-
-        delay(1000);
-      }
-    }
-    else if (weatherCode == 300 || weatherCode == 301 || weatherCode == 310 || weatherCode == 500 || weatherCode == 520)
-    {
-      while ((startTime + 30000) >= millis())
-      {
-        DmxMaster.write(1, 14);
-        DmxMaster.write(2, 171);
-        DmxMaster.write(3, 245);
-      }
-      // light rain - Slight blue
-    }
+    //if (inChar == '\r') {
       
-    else if (weatherCode == 302 || weatherCode == 311 || weatherCode == 313 || weatherCode == 321 || weatherCode == 501 || weatherCode == 521)
-    {
-      while ((startTime + 30000) >= millis())
+      startTime = millis();
+      
+      if (weatherCode == 200 || weatherCode == 210 || weatherCode == 230)
       {
-        DmxMaster.write(1, 163);
-        DmxMaster.write(2, 163);
-        DmxMaster.write(3, 163);
-        DmxMaster.write(4, 100);
+        while ((startTime + 30000) >= millis())
+        {                
+          rando = random(50,100);
+  
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+          
+          delay(10*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+          
+          delay(150*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+  
+          delay(1000);
+        }
       }
-      // rain - Slight grey / dark / dim
-    }
-    else if (weatherCode == 312 || weatherCode == 314 || weatherCode == 502 || weatherCode == 503 || weatherCode == 504 || weatherCode == 522 || weatherCode == 531)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 201 || weatherCode == 211 || weatherCode == 231)
       {
-        DmxMaster.write(1, 100);
-        DmxMaster.write(2, 100);
-        DmxMaster.write(3, 100);
-        DmxMaster.write(4, 60);
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(30,80);
+  
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+          /* Update DMX channel 1 to new brightness */
+          
+          /* Small delay to slow down the ramping */
+          delay(10*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+          
+          delay(150*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+  
+          delay(1000);
+        }
       }
-      // heavy rain / more grey / darker / dimmer
-    }
-    else if (weatherCode == 600 || weatherCode == 601 || weatherCode == 620 || weatherCode == 621)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 202 || weatherCode == 212 || weatherCode == 221 || weatherCode == 232)
       {
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-        DmxMaster.write(4, 120);
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(1,60);
+  
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+  
+          delay(10*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+  
+          delay(150*rando);
+      
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+      
+          delay(10);
+          
+          DmxMaster.write(1, 0);
+          DmxMaster.write(2, 0);
+          DmxMaster.write(3, 0);
+  
+          delay(1000);
+        }
       }
-      // snow / white light
-    }
-    else if (weatherCode == 602 || weatherCode == 622)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 300 || weatherCode == 301 || weatherCode == 310 || weatherCode == 500 || weatherCode == 520)
       {
-        rando = random(70, 85);
-        randoChange = random (300, 2000);
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 14);
+          DmxMaster.write(2, 171);
+          DmxMaster.write(3, 245);
+        }
+        // light rain - Slight blue
+      }
         
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 255);
-        DmxMaster.write(4, rando);
-
-        delay(randoChange);
-      }
-      // heavy snow / dim white
-    }
-   else if (weatherCode == 611 || weatherCode == 612 || weatherCode == 615 || weatherCode == 906 || weatherCode == 616)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 302 || weatherCode == 311 || weatherCode == 313 || weatherCode == 321 || weatherCode == 501 || weatherCode == 521)
       {
-        rando = random(58, 65);
-        randoChange = random (300, 1000);
-        
-        DmxMaster.write(1, 200);
-        DmxMaster.write(2, 200);
-        DmxMaster.write(3, 200);
-        DmxMaster.write(4, rando);
-
-        delay(randoChange);     
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 163);
+          DmxMaster.write(2, 163);
+          DmxMaster.write(3, 163);
+          DmxMaster.write(4, 100);
+        }
+        // rain - Slight grey / dark / dim
       }
-      // hail / dark grey
-    }
-    else if (weatherCode == 800 || weatherCode == 951 || weatherCode == 801 || weatherCode == 802 || weatherCode == 904)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 312 || weatherCode == 314 || weatherCode == 502 || weatherCode == 503 || weatherCode == 504 || weatherCode == 522 || weatherCode == 531)
       {
-        DmxMaster.write(1, 255);
-        DmxMaster.write(2, 255);
-        DmxMaster.write(3, 151);
-        DmxMaster.write(4, 180);
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 100);
+          DmxMaster.write(2, 100);
+          DmxMaster.write(3, 100);
+          DmxMaster.write(4, 60);
+        }
+        // heavy rain / more grey / darker / dimmer
       }
-      // Sunny day / Warm yellow
-    }
-    else if (weatherCode == 952 || weatherCode == 953 || weatherCode == 803 || weatherCode == 804)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 600 || weatherCode == 601 || weatherCode == 620 || weatherCode == 621)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+          DmxMaster.write(4, 120);
+        }
+        // snow / white light
       }
-      // light wind / less warm yellow
-    }
-    else if (weatherCode == 701 || weatherCode == 711 || weatherCode == 721 || weatherCode == 905 || weatherCode == 954 || weatherCode == 955 || weatherCode == 903)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 602 || weatherCode == 622)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(70, 85);
+          randoChange = random (300, 2000);
+          
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 255);
+          DmxMaster.write(4, rando);
+  
+          delay(randoChange);
+        }
+        // heavy snow / dim white
       }
-      // wind / less warm yellow
-    }
-    else if (weatherCode == 771 || weatherCode == 956 || weatherCode == 957 || weatherCode == 958 || weatherCode == 959)
-    {
-      while ((startTime + 30000) >= millis())
+     else if (weatherCode == 611 || weatherCode == 612 || weatherCode == 615 || weatherCode == 906 || weatherCode == 616)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(58, 65);
+          randoChange = random (300, 1000);
+          
+          DmxMaster.write(1, 200);
+          DmxMaster.write(2, 200);
+          DmxMaster.write(3, 200);
+          DmxMaster.write(4, rando);
+  
+          delay(randoChange);     
+        }
+        // hail / dark grey
       }
-      // heavy wind / less warm yellow
-    }
-    else if (weatherCode == 731 || weatherCode == 751 || weatherCode == 761 || weatherCode == 762)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 800 || weatherCode == 951 || weatherCode == 801 || weatherCode == 802 || weatherCode == 904)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 151);
+          DmxMaster.write(4, 180);
+        }
+        // Sunny day / Warm yellow
       }
-      // sandy wind / yellow
-    }
-    else if (weatherCode == 781)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 952 || weatherCode == 953 || weatherCode == 803 || weatherCode == 804)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 151);
+          DmxMaster.write(4, 140);
+        }
+        // light wind / less warm yellow
       }
-      // Tornado / grey
-    }
-    else if (weatherCode == 901 || weatherCode == 902 || weatherCode == 962 || weatherCode == 960 || weatherCode == 961)
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 701 || weatherCode == 711 || weatherCode == 721 || weatherCode == 905 || weatherCode == 954 || weatherCode == 955 || weatherCode == 903)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 151);
+          DmxMaster.write(4, 140);
+        }
+        // wind / less warm yellow
       }
-      // Tropical cyclone / very grey
-    }
-    else
-    {
-      while ((startTime + 30000) >= millis())
+      else if (weatherCode == 771 || weatherCode == 956 || weatherCode == 957 || weatherCode == 958 || weatherCode == 959)
       {
-        
+        while ((startTime + 30000) >= millis())
+        {
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 151);
+          DmxMaster.write(4, 140);
+        }
+        // heavy wind / less warm yellow
       }
-      // Party Mode
-    }
+      else if (weatherCode == 731 || weatherCode == 751 || weatherCode == 761 || weatherCode == 762)
+      {
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(135, 145);
+          randoChange = random (300, 1000);
+          
+          DmxMaster.write(1, 255);
+          DmxMaster.write(2, 255);
+          DmxMaster.write(3, 151);
+          DmxMaster.write(4, rando);
+  
+          delay(randoChange);
+        }
+        // sandy wind / yellow
+      }
+      else if (weatherCode == 781)
+      {
+        while ((startTime + 30000) >= millis())
+        {
+    
+          rando = random(90, 109);
+          randoChange = random (1, 300);
+          
+          DmxMaster.write(1, 100);
+          DmxMaster.write(2, 100);
+          DmxMaster.write(3, 100);
+          DmxMaster.write(4, rando);
+  
+          delay(randoChange);
+        }
+        // Tornado / grey
+      }
+      else if (weatherCode == 901 || weatherCode == 902 || weatherCode == 962 || weatherCode == 960 || weatherCode == 961)
+      {
+        while ((startTime + 30000) >= millis())
+        {
+          rando = random(100, 130);
+          randoChange = random (900, 2000);
+          
+          DmxMaster.write(1, 100);
+          DmxMaster.write(2, 100);
+          DmxMaster.write(3, 100);
+          DmxMaster.write(4, rando);
+  
+          delay(randoChange);
+        }
+        // Tropical cyclone / very grey
+      }
+      else if (weatherCode != -1)
+      {
+        while ((startTime + 30000) >= millis())
+        {
+          int rando2;
+          int rando3;
+          
+          rando = random(0, 255);
+          rando2 = random(0, 255);
+          rando3 = random(0, 255);
+          randoChange = random (0, 400);
+          
+          DmxMaster.write(1, rando);
+          DmxMaster.write(2, rando2);
+          DmxMaster.write(3, rando3);
+          DmxMaster.write(4, 255);
+  
+          delay(randoChange);
+        }
+        // Party Mode
+      }
+    weatherCode = 0;
+    //}
 
     DmxMaster.write(1, 0);
     DmxMaster.write(2, 0);
@@ -320,30 +374,30 @@ void loop() {
         
   }
 
-  DmxMaster.write(4, 100);
+  //DmxMaster.write(4, 100);
   
-  DmxMaster.write(1, 255);
-  DmxMaster.write(2, 0);
-  DmxMaster.write(3, 0);
+  //DmxMaster.write(1, 255);
+  //DmxMaster.write(2, 0);
+  //DmxMaster.write(3, 0);
 
-  delay(2000);
+  //delay(2000);
   
-  DmxMaster.write(1, 0);
-  DmxMaster.write(2, 255);
-  DmxMaster.write(3, 0);
+  //DmxMaster.write(1, 0);
+  //DmxMaster.write(2, 255);
+  //DmxMaster.write(3, 0);
 
-  delay(2000);
+  //delay(2000);
 
-  DmxMaster.write(1, 0);
-  DmxMaster.write(2, 0);
-  DmxMaster.write(3, 255);
+  //DmxMaster.write(1, 0);
+  //DmxMaster.write(2, 0);
+  //DmxMaster.write(3, 255);
 
-  delay(2000);
+  //delay(2000);
 
-  DmxMaster.write(1, 0);
-  DmxMaster.write(2, 0);
-  DmxMaster.write(3, 0);
-  DmxMaster.write(4, 255);
+  //DmxMaster.write(1, 0);
+  //DmxMaster.write(2, 0);
+  //DmxMaster.write(3, 0);
+  //DmxMaster.write(4, 255);
   
 }
 

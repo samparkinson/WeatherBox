@@ -1,8 +1,9 @@
-# todo   - Make pump stop after 30 s
+# todo  - Make pump stop after 30 s
 #       - Fix the issue with some sound files not having a match
 #       - Look at error handling and tests
 #       - Modulate Breeze (+ - speed to give a sense of not static) - Done
 #       - Make sure it runs on raspberry pi
+#       - check for darkness using unixtimestamp and datetime.datetime.utcnow().timestamp()
 
 import constants
 import re
@@ -18,8 +19,6 @@ import threading
 import time
 import pygame
 from slackclient import SlackClient
-
-# class PlayThatFunkyMusic:
 
 
 class FetchWeather:
@@ -48,13 +47,13 @@ class slackky:
         try:
             ser = serial.Serial("/dev/tty.usbmodem1411", 9600)
             ser.baudrate = 9600
-            ser.write(bytes(weather))
+            weatherToPass = str(weather)
+            ser.write(weatherToPass.encode())
         except serial.SerialException:
             print "Light Not found"
 
         # Wind Fluctuation Loop
         while True:
-            test = 0
             if time.time() > timeout:
                 break
             randomspeed = speed - random.randint(0, 60)
@@ -303,6 +302,14 @@ class slackky:
                                 ser.write(bytes(message_text.encode()))
                             except serial.SerialException:
                                 print "Pump Not found"
+
+                            try:
+                                ser = serial.Serial(
+                                    "/dev/tty.usbmodem1411", 9600)
+                                ser.baudrate = 9600
+                                ser.write(message_text.encode())
+                            except serial.SerialException:
+                                print "Light Not found"
 
                             slack_client.api_call(
                                 "chat.postMessage",
