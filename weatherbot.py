@@ -1,4 +1,4 @@
-#todo   - Make pump stop after 30 s
+# todo   - Make pump stop after 30 s
 #       - Fix the issue with some sound files not having a match
 #       - Look at error handling and tests
 #       - Modulate Breeze (+ - speed to give a sense of not static) - Done
@@ -32,33 +32,43 @@ class FetchWeather:
         response = urllib2.urlopen(req)
         return json.load(response)
 
+
 class slackky:
 
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
 
-    def passSpeedToSerial(self, speed):
-        timeout = time.time() + 30   # 30 seconds from now
+    def passToSerial(self, speed, weather):
+        timeout = time.time() + 29   # 29 seconds from now
 
+        # Set off colour scheme
+        try:
+            ser = serial.Serial("/dev/tty.usbmodem1411", 9600)
+            ser.baudrate = 9600
+            ser.write(bytes(weather))
+        except serial.SerialException:
+            print "Light Not found"
+
+        # Wind Fluctuation Loop
         while True:
             test = 0
             if time.time() > timeout:
                 break
-            randomspeed = speed - random.randint(0,60)
+            randomspeed = speed - random.randint(0, 60)
             try:
                 ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
                 ser.baudrate = 9600
                 ser.write(bytes(randomspeed))
             except serial.SerialException:
-                print "Usb Not found"
+                print "Pump Not found"
             time.sleep(1)
-        
+
         try:
             ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
             ser.baudrate = 9600
             ser.write(bytes(0))
         except serial.SerialException:
-            print "Usb Not found"     
+            print "Pump Not found"
 
     def playFromPath(self, path):
         pygame.init()
@@ -196,7 +206,7 @@ class slackky:
                 speed),
             as_user=True)
 
-        self.passSpeedToSerial(speed)
+        self.passToSerial(speed, weatherId)
 
         slack_client.api_call(
             "chat.postMessage",
@@ -278,11 +288,12 @@ class slackky:
                                 as_user=True)
 
                             try:
-                                ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+                                ser = serial.Serial(
+                                    "/dev/tty.usbmodem1421", 9600)
                                 ser.baudrate = 9600
                                 ser.write(bytes(message_text.encode()))
                             except serial.SerialException:
-                                print "Usb Not found"
+                                print "Pump Not found"
 
                             slack_client.api_call(
                                 "chat.postMessage",
