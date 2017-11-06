@@ -26,11 +26,14 @@ class FetchWeather:
     url = "http://api.openweathermap.org/data/2.5/weather?q="
 
     def city(self, city):
-        requesturl = "http://api.openweathermap.org/data/2.5/weather?q=" + city
-        req = urllib2.Request(requesturl)
-        req.add_header('x-api-key', constants.OPENWEATHER)
-        response = urllib2.urlopen(req)
-        return json.load(response)
+        try:
+            requesturl = "http://api.openweathermap.org/data/2.5/weather?q=" + city
+            req = urllib2.Request(requesturl)
+            req.add_header('x-api-key', constants.OPENWEATHER)
+            response = urllib2.urlopen(req)
+            return json.load(response)
+        except urllib2.HTTPError:
+            return None
 
 
 class slackky:
@@ -153,17 +156,23 @@ class slackky:
 
         api = FetchWeather()
         weatherdata = api.city(city)
-        print json.dumps(weatherdata, indent=2)
-        if 'wind' in weatherdata and 'speed' in weatherdata['wind']:
-            wind = weatherdata['wind']
-            windspeed = wind['speed']
-        else:
-            pass
 
-        if 'weather' in weatherdata and 'id' in weatherdata['weather'][0]:
-            weather = weatherdata['weather'][0]
-            weatherId = weather['id']
-            self.routeMusicFromWeather(weatherId)
+        windspeed = 250
+        weatherId = 000
+
+        if weatherdata is not None:
+            print json.dumps(weatherdata, indent=2)
+            if 'wind' in weatherdata and 'speed' in weatherdata['wind']:
+                wind = weatherdata['wind']
+                windspeed = wind['speed']
+            else:
+                pass
+
+            if 'weather' in weatherdata and 'id' in weatherdata['weather'][0]:
+                weather = weatherdata['weather'][0]
+                weatherId = weather['id']
+
+        self.routeMusicFromWeather(weatherId)
 
         slack_client.api_call(
             "chat.postMessage",

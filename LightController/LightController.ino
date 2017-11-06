@@ -31,6 +31,7 @@ void loop() {
   int rando;
   unsigned long startTime;
   int weatherCode;
+  int randoChange;
   
   if (Serial.available() > 0) {
 
@@ -206,7 +207,10 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
-        
+        DmxMaster.write(1, 255);
+        DmxMaster.write(2, 255);
+        DmxMaster.write(3, 255);
+        DmxMaster.write(4, 120);
       }
       // snow / white light
     }
@@ -214,7 +218,15 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
+        rando = random(70, 85);
+        randoChange = random (300, 2000);
         
+        DmxMaster.write(1, 255);
+        DmxMaster.write(2, 255);
+        DmxMaster.write(3, 255);
+        DmxMaster.write(4, rando);
+
+        delay(randoChange);
       }
       // heavy snow / dim white
     }
@@ -222,7 +234,15 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
+        rando = random(58, 65);
+        randoChange = random (300, 1000);
         
+        DmxMaster.write(1, 200);
+        DmxMaster.write(2, 200);
+        DmxMaster.write(3, 200);
+        DmxMaster.write(4, rando);
+
+        delay(randoChange);     
       }
       // hail / dark grey
     }
@@ -230,7 +250,10 @@ void loop() {
     {
       while ((startTime + 30000) >= millis())
       {
-        
+        DmxMaster.write(1, 255);
+        DmxMaster.write(2, 255);
+        DmxMaster.write(3, 151);
+        DmxMaster.write(4, 180);
       }
       // Sunny day / Warm yellow
     }
