@@ -29,6 +29,7 @@ void setup() {
 void loop() {
   int brightness;
   int rando;
+  unsigned long startTime
   /* Simple loop to ramp up brightness */
 
   // send data only when you receive data:
@@ -36,49 +37,195 @@ void loop() {
                 // read the incoming byte:
                 weatherCode = Serial.read();
 
+                startTime = millis();
+
                 if (weatherCode == 200 || weatherCode == 210 || weatherCode == 230)
                 {
-                  // thunder light rain
+                    while ((startTime + 30000) >= millis())
+                    {                
+                      rando = random(50,100);
+  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+                      
+                      delay(10*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+                      
+                      delay(150*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+
+                      delay(1000);
+                    }
                 }
                 else if (weatherCode == 201 || weatherCode == 211 || weatherCode == 231)
                 {
-                  // thunderstorm
+                    while ((startTime + 30000) >= millis())
+                    {
+                      rando = random(30,80);
+  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+                      /* Update DMX channel 1 to new brightness */
+                      
+                      /* Small delay to slow down the ramping */
+                      delay(10*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+                      
+                      delay(150*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+
+                      delay(1000);
+                    }
                 }
                 else if (weatherCode == 202 || weatherCode == 212 || weatherCode == 221 || weatherCode == 232)
                 {
-                  // heavy thunderstorm
+                    while ((startTime + 30000) >= millis())
+                    {
+                      rando = random(1,60);
+  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+
+                      delay(10*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+
+                      delay(150*rando);
+                  
+                      DmxMaster.write(1, 255);
+                      DmxMaster.write(2, 255);
+                      DmxMaster.write(3, 255);
+                  
+                      delay(10);
+                      
+                      DmxMaster.write(1, 0);
+                      DmxMaster.write(2, 0);
+                      DmxMaster.write(3, 0);
+
+                      delay(1000);
+                    }
                 }
                 else if (weatherCode == 300 || weatherCode == 301 || weatherCode == 310 || weatherCode == 500 || weatherCode == 520)
                 {
-                  // light rain
+                  // light rain - Slight blue
                 }
-
-        elif weatherCode in (302, 311, 313, 321, 501, 521):
-            self.playFromPath(folder + "rain.wav")
-        elif weatherCode in (312, 314, 502, 503, 504, 522, 531):
-            self.playFromPath(folder + "heavy_rain.wav")
-        elif weatherCode in (600, 601, 620, 621):
-            self.playFromPath(folder + "snow.wav")
-        elif weatherCode in (602, 622):
-            self.playFromPath(folder + "heavy_snow.wav")
-        elif weatherCode in (611, 612, 615, 906, 616):
-            self.playFromPath(folder + "hail.wav")
-        elif weatherCode in (800, 951, 801, 802, 904):
-            self.playFromPath(folder + "sunny_day.wav")
-        elif weatherCode in (952, 953, 803, 804):
-            self.playFromPath(folder + "light_wind.wav")
-        elif weatherCode in (701, 711, 721, 905, 954, 955, 903):
-            self.playFromPath(folder + "wind.wav")
-        elif weatherCode in (771, 956, 957, 958, 959):
-            self.playFromPath(folder + "heavy_wind.wav")
-        elif weatherCode in (731, 751, 761, 762):
-            self.playFromPath(folder + "sandy_wind.wav")
-        elif weatherCode == 781:
-            self.playFromPath(folder + "tornado.wav")
-        elif weatherCode in (901, 902, 962, 960, 961):
-            self.playFromPath(folder + "tropical_cyclone.wav")
-        else:
-            pass
+                else if (weatherCode == 302 || weatherCode == 311 || weatherCode == 313 || weatherCode == 321 || weatherCode == 501 || weatherCode == 521)
+                {
+                  // rain - Slight grey / dark / dim
+                }
+                else if (weatherCode == 312 || weatherCode == 314 || weatherCode == 502 || weatherCode == 503 || weatherCode == 504 || weatherCode == 522 || weatherCode == 531)
+                {
+                  // heavy rain / more grey / darker / dimmer
+                }
+                else if (weatherCode == 600 || weatherCode == 601 || weatherCode == 620 || weatherCode == 621)
+                {
+                  // snow / white light
+                }
+                else if (weatherCode == 602 || weatherCode == 622)
+                {
+                  // heavy snow / dim white
+                }
+               else if (weatherCode == 611 || weatherCode == 612 || weatherCode == 615 || weatherCode == 906 || weatherCode == 616)
+                {
+                  // hail / dark grey
+                }
+                else if (weatherCode == 800 || weatherCode == 951 || weatherCode == 801 || weatherCode == 802 || weatherCode == 904)
+                {
+                  // Sunny day / Warm yellow
+                }
+                else if (weatherCode == 952 || weatherCode == 953 || weatherCode == 803 || weatherCode == 804)
+                {
+                  // light wind / less warm yellow
+                }
+                else if (weatherCode == 701 || weatherCode == 711 || weatherCode == 721 || weatherCode == 905 || weatherCode == 954 || weatherCode == 955 || weatherCode == 903)
+                {
+                  // wind / less warm yellow
+                }
+                else if (weatherCode == 771 || weatherCode == 956 || weatherCode == 957 || weatherCode == 958 || weatherCode == 959)
+                {
+                  // heavy wind / less warm yellow
+                }
+                else if (weatherCode == 731 || weatherCode == 751 || weatherCode == 761 || weatherCode == 762)
+                {
+                  // sandy wind / yellow
+                }
+                else if (weatherCode == 781)
+                {
+                  // Tornado / grey
+                }
+                else if (weatherCode == 901 || weatherCode == 902 || weatherCode == 962 || weatherCode == 960 || weatherCode == 961)
+                {
+                  // Tropical cyclone / very grey
+                }
+                else
+                {
+                  // Party Mode
+                }
               
                 // say what you got:
                 Serial.print("I received: ");
@@ -119,51 +266,6 @@ void loop() {
       self.playFromPath(folder + "tropical_cyclone.wav")
   else:
       pass
-
-  rando = random(1,100);
-
-    DmxMaster.write(1, 255);
-    DmxMaster.write(2, 255);
-    DmxMaster.write(3, 255);
-
-    delay(10);
-    
-    DmxMaster.write(1, 0);
-    DmxMaster.write(2, 0);
-    DmxMaster.write(3, 0);
-    /* Update DMX channel 1 to new brightness */
-    
-    /* Small delay to slow down the ramping */
-    delay(10*rando);
-
-    DmxMaster.write(1, 255);
-    DmxMaster.write(2, 255);
-    DmxMaster.write(3, 255);
-
-    delay(10);
-    
-    DmxMaster.write(1, 0);
-    DmxMaster.write(2, 0);
-    DmxMaster.write(3, 0);
-    /* Update DMX channel 1 to new brightness */
-    
-    /* Small delay to slow down the ramping */
-    delay(150*rando);
-
-    DmxMaster.write(1, 255);
-    DmxMaster.write(2, 255);
-    DmxMaster.write(3, 255);
-
-    delay(10);
-    
-    DmxMaster.write(1, 0);
-    DmxMaster.write(2, 0);
-    DmxMaster.write(3, 0);
-    /* Update DMX channel 1 to new brightness */
-    
-    /* Small delay to slow down the ramping */
-    delay(1000);
-
 }
 
 
