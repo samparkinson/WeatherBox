@@ -163,7 +163,7 @@ class slackky:
         weatherdata = api.city(city)
 
         windspeed = 250
-        weatherId = 000
+        weatherId = 777
 
         if weatherdata is not None:
             print json.dumps(weatherdata, indent=2)
