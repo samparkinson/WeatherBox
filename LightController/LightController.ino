@@ -10,6 +10,10 @@
 ** auto-insert it if you select Sketch > Import Library > DmxMaster. */
 
 #include <DmxMaster.h>
+  int one;
+  int two;
+  int three;
+  int four;
 
 void setup() {
   /* The most common pin for DMX output is pin 3, which DmxMaster
@@ -22,16 +26,23 @@ void setup() {
 ** easily change the number of channels sent here. If you don't
 ** do this, DmxMaster will set the maximum channel number to the
 ** highest channel you DmxMaster.write() to. */
-  DmxMaster.maxChannel(4);
-  DmxMaster.write(4, 255);
+  DmxMaster.maxChannel(334);
+  
 }
-
 void loop() {
   int brightness;
   int rando;
   unsigned long startTime;
   int weatherCode;
   int randoChange;
+
+  int one = 332;
+  int two = 333;
+  int three = 334;
+  int four = 331;
+  DmxMaster.write(four, 255);
+
+
   
   if (Serial.available() >= 3) {
 
@@ -50,39 +61,39 @@ void loop() {
         {                
           rando = random(50,100);
   
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
           
           delay(10*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
           
           delay(150*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
   
           delay(1000);
         }
@@ -93,41 +104,41 @@ void loop() {
         {
           rando = random(30,80);
   
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
           /* Update DMX channel 1 to new brightness */
           
           /* Small delay to slow down the ramping */
           delay(10*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
           
           delay(150*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
   
           delay(1000);
         }
@@ -138,39 +149,39 @@ void loop() {
         {
           rando = random(1,60);
   
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
   
           delay(10*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
   
           delay(150*rando);
       
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
       
           delay(10);
           
-          DmxMaster.write(1, 0);
-          DmxMaster.write(2, 0);
-          DmxMaster.write(3, 0);
+          DmxMaster.write(one, 0);
+          DmxMaster.write(two, 0);
+          DmxMaster.write(three, 0);
   
           delay(1000);
         }
@@ -179,9 +190,9 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 14);
-          DmxMaster.write(2, 171);
-          DmxMaster.write(3, 245);
+          DmxMaster.write(one, 14);
+          DmxMaster.write(two, 171);
+          DmxMaster.write(three, 245);
         }
         // light rain - Slight blue
       }
@@ -190,10 +201,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 163);
-          DmxMaster.write(2, 163);
-          DmxMaster.write(3, 163);
-          DmxMaster.write(4, 100);
+          DmxMaster.write(one, 163);
+          DmxMaster.write(two, 163);
+          DmxMaster.write(three, 163);
+          DmxMaster.write(four, 100);
         }
         // rain - Slight grey / dark / dim
       }
@@ -201,10 +212,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 100);
-          DmxMaster.write(2, 100);
-          DmxMaster.write(3, 100);
-          DmxMaster.write(4, 60);
+          DmxMaster.write(one, 100);
+          DmxMaster.write(two, 100);
+          DmxMaster.write(three, 100);
+          DmxMaster.write(four, 60);
         }
         // heavy rain / more grey / darker / dimmer
       }
@@ -212,10 +223,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
-          DmxMaster.write(4, 120);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
+          DmxMaster.write(four, 120);
         }
         // snow / white light
       }
@@ -226,10 +237,10 @@ void loop() {
           rando = random(70, 85);
           randoChange = random (300, 2000);
           
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 255);
-          DmxMaster.write(4, rando);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 255);
+          DmxMaster.write(four, rando);
   
           delay(randoChange);
         }
@@ -242,10 +253,10 @@ void loop() {
           rando = random(58, 65);
           randoChange = random (300, 1000);
           
-          DmxMaster.write(1, 200);
-          DmxMaster.write(2, 200);
-          DmxMaster.write(3, 200);
-          DmxMaster.write(4, rando);
+          DmxMaster.write(one, 200);
+          DmxMaster.write(two, 200);
+          DmxMaster.write(three, 200);
+          DmxMaster.write(four, rando);
   
           delay(randoChange);     
         }
@@ -255,10 +266,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 151);
-          DmxMaster.write(4, 180);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 151);
+          DmxMaster.write(four, 180);
         }
         // Sunny day / Warm yellow
       }
@@ -266,10 +277,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 151);
-          DmxMaster.write(4, 140);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 151);
+          DmxMaster.write(four, 140);
         }
         // light wind / less warm yellow
       }
@@ -277,10 +288,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 151);
-          DmxMaster.write(4, 140);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 151);
+          DmxMaster.write(four, 140);
         }
         // wind / less warm yellow
       }
@@ -288,10 +299,10 @@ void loop() {
       {
         while ((startTime + 30000) >= millis())
         {
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 151);
-          DmxMaster.write(4, 140);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 151);
+          DmxMaster.write(four, 140);
         }
         // heavy wind / less warm yellow
       }
@@ -302,10 +313,10 @@ void loop() {
           rando = random(135, 145);
           randoChange = random (300, 1000);
           
-          DmxMaster.write(1, 255);
-          DmxMaster.write(2, 255);
-          DmxMaster.write(3, 151);
-          DmxMaster.write(4, rando);
+          DmxMaster.write(one, 255);
+          DmxMaster.write(two, 255);
+          DmxMaster.write(three, 151);
+          DmxMaster.write(four, rando);
   
           delay(randoChange);
         }
@@ -319,10 +330,10 @@ void loop() {
           rando = random(90, 109);
           randoChange = random (1, 300);
           
-          DmxMaster.write(1, 100);
-          DmxMaster.write(2, 100);
-          DmxMaster.write(3, 100);
-          DmxMaster.write(4, rando);
+          DmxMaster.write(one, 100);
+          DmxMaster.write(two, 100);
+          DmxMaster.write(three, 100);
+          DmxMaster.write(four, rando);
   
           delay(randoChange);
         }
@@ -335,10 +346,10 @@ void loop() {
           rando = random(100, 130);
           randoChange = random (900, 2000);
           
-          DmxMaster.write(1, 100);
-          DmxMaster.write(2, 100);
-          DmxMaster.write(3, 100);
-          DmxMaster.write(4, rando);
+          DmxMaster.write(one, 100);
+          DmxMaster.write(two, 100);
+          DmxMaster.write(three, 100);
+          DmxMaster.write(four, rando);
   
           delay(randoChange);
         }
@@ -356,10 +367,10 @@ void loop() {
           rando3 = random(0, 255);
           randoChange = random (0, 400);
           
-          DmxMaster.write(1, rando);
-          DmxMaster.write(2, rando2);
-          DmxMaster.write(3, rando3);
-          DmxMaster.write(4, 255);
+          DmxMaster.write(332, rando);
+          DmxMaster.write(333, rando2);
+          DmxMaster.write(334, rando3);
+          DmxMaster.write(331, 255);
   
           delay(randoChange);
         }
@@ -368,36 +379,36 @@ void loop() {
     weatherCode = 0;
     //}
 
-    DmxMaster.write(1, 0);
-    DmxMaster.write(2, 0);
-    DmxMaster.write(3, 0);
+    DmxMaster.write(one, 0);
+    DmxMaster.write(two, 0);
+    DmxMaster.write(three, 0);
         
   }
 
-  //DmxMaster.write(4, 100);
+  //DmxMaster.write(four, 100);
   
-  //DmxMaster.write(1, 255);
-  //DmxMaster.write(2, 0);
-  //DmxMaster.write(3, 0);
+  //DmxMaster.write(one, 255);
+  //DmxMaster.write(two, 0);
+  //DmxMaster.write(three, 0);
 
   //delay(2000);
   
-  //DmxMaster.write(1, 0);
-  //DmxMaster.write(2, 255);
-  //DmxMaster.write(3, 0);
+  //DmxMaster.write(one, 0);
+  //DmxMaster.write(two, 255);
+  //DmxMaster.write(three, 0);
 
   //delay(2000);
 
-  //DmxMaster.write(1, 0);
-  //DmxMaster.write(2, 0);
-  //DmxMaster.write(3, 255);
+  //DmxMaster.write(one, 0);
+  //DmxMaster.write(two, 0);
+  //DmxMaster.write(three, 255);
 
   //delay(2000);
 
-  //DmxMaster.write(1, 0);
-  //DmxMaster.write(2, 0);
-  //DmxMaster.write(3, 0);
-  //DmxMaster.write(4, 255);
+  //DmxMaster.write(one, 0);
+  //DmxMaster.write(two, 0);
+  //DmxMaster.write(three, 0);
+  //DmxMaster.write(four, 255);
   
 }
 

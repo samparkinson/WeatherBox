@@ -40,17 +40,25 @@ class slackky:
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
 
+        self.ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+        self.ser.baudrate = 9600
+
+        time.sleep(1)
+
+        self.ser2 = serial.Serial("/dev/tty.usbmodem1411", 9600)
+        self.ser2.baudrate = 9600
+
     def passToSerial(self, speed, weather):
         timeout = time.time() + 29   # 29 seconds from now
 
         # Set off colour scheme
         try:
-            ser = serial.Serial("/dev/tty.usbmodem1411", 9600)
-            ser.baudrate = 9600
             weatherToPass = str(weather)
-            ser.write(weatherToPass.encode())
+            client.ser2.write(weatherToPass.encode())
         except serial.SerialException:
             print "Light Not found"
+
+        time.sleep(1)
 
         # Wind Fluctuation Loop
         while True:
@@ -58,9 +66,7 @@ class slackky:
                 break
             randomspeed = speed - random.randint(0, 60)
             try:
-                ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-                ser.baudrate = 9600
-                ser.write(bytes(randomspeed))
+                client.ser.write(bytes(randomspeed))
             except serial.SerialException:
                 print "Pump Not found"
             time.sleep(1)
@@ -113,7 +119,7 @@ class slackky:
         elif weatherCode in (901, 902, 962, 960, 961):
             self.playFromPath(folder + "tropical_cyclone.wav")
         else:
-            pass
+            self.playFromPath(folder + "party.wav")
 
         # If sound 741 / other fog sounds, take a look at doing sound based on a wind speed and possible a fog horn in there as well
 
@@ -171,8 +177,6 @@ class slackky:
                 weather = weatherdata['weather'][0]
                 weatherId = weather['id']
 
-        self.routeMusicFromWeather(weatherId)
-
         slack_client.api_call(
             "chat.postMessage",
             channel=message['channel'],
@@ -214,6 +218,7 @@ class slackky:
                 speed),
             as_user=True)
 
+        self.routeMusicFromWeather(weatherId)
         self.passToSerial(speed, weatherId)
 
         slack_client.api_call(
@@ -250,7 +255,7 @@ class slackky:
 
             while True:
                 for message in slack_client.rtm_read():
-                    if 'text' in message and message['text'].startswith("<@%s>" % slack_user_id):
+                    if 'text' in message and (message['text'].startswith("<@%s>" % slack_user_id) or message['text'].startswith("<@pibot>")):
 
                         print "Message received: %s" % json.dumps(message, indent=2)
 
@@ -296,18 +301,18 @@ class slackky:
                                 as_user=True)
 
                             try:
-                                ser = serial.Serial(
-                                    "/dev/tty.usbmodem1421", 9600)
-                                ser.baudrate = 9600
-                                ser.write(bytes(message_text.encode()))
+                                # ser = serial.Serial(
+                                    #"/dev/tty.usbmodem1421", 9600)
+                                # ser.baudrate = 9600
+                                client.ser.write(bytes(message_text.encode()))
                             except serial.SerialException:
                                 print "Pump Not found"
 
                             try:
-                                ser = serial.Serial(
-                                    "/dev/tty.usbmodem1411", 9600)
-                                ser.baudrate = 9600
-                                ser.write(message_text.encode())
+                                # ser2 = serial.Serial(
+                                    #"/dev/tty.usbmodem1411", 9600)
+                                # ser2.baudrate = 9600
+                                client.ser2.write(message_text.encode())
                             except serial.SerialException:
                                 print "Light Not found"
 
