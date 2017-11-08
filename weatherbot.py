@@ -1,8 +1,8 @@
-# todo  - Make pump stop after 30 s
+# todo  - Make pump stop after 30 s - Done
 #       - Fix the issue with some sound files not having a match
-#       - Look at error handling and tests
+#       - Look at error handling and tests - Nah prototype
 #       - Modulate Breeze (+ - speed to give a sense of not static) - Done
-#       - Make sure it runs on raspberry pi
+#       - Make sure it runs on raspberry pi - N/A
 #       - check for darkness using unixtimestamp and datetime.datetime.utcnow().timestamp()
 
 import constants
@@ -40,23 +40,32 @@ class slackky:
     def __init__(self):
         self.slack_client1 = SlackClient(constants.SLACK)
 
-        self.ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-        self.ser.baudrate = 9600
+        try:
+            self.ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
+            self.ser.baudrate = 9600
+        except serial.SerialException:
+            self.ser = None
+            print "Pump Not found"
 
         time.sleep(1)
 
-        self.ser2 = serial.Serial("/dev/tty.usbmodem1411", 9600)
-        self.ser2.baudrate = 9600
+        try:
+            self.ser2 = serial.Serial("/dev/tty.usbmodem1411", 9600)
+            self.ser2.baudrate = 9600
+        except serial.SerialException:
+            self.ser2 = None
+            print "Light Not found"
 
     def passToSerial(self, speed, weather):
         timeout = time.time() + 29   # 29 seconds from now
 
         # Set off colour scheme
-        try:
-            weatherToPass = str(weather)
-            client.ser2.write(weatherToPass.encode())
-        except serial.SerialException:
-            print "Light Not found"
+        if client.ser2 is not None:
+            try:
+                weatherToPass = str(weather)
+                client.ser2.write(weatherToPass.encode())
+            except serial.SerialException:
+                print "Light Not found"
 
         time.sleep(1)
 
@@ -65,18 +74,18 @@ class slackky:
             if time.time() > timeout:
                 break
             randomspeed = speed - random.randint(0, 60)
-            try:
-                client.ser.write(bytes(randomspeed))
-            except serial.SerialException:
-                print "Pump Not found"
-            time.sleep(1)
+            if client.ser is not None:
+                try:
+                    client.ser.write(bytes(randomspeed))
+                except (serial.SerialException, AttributeError):
+                    print "Pump Not found"
+                time.sleep(1)
 
-        try:
-            ser = serial.Serial("/dev/tty.usbmodem1421", 9600)
-            ser.baudrate = 9600
-            ser.write(bytes(0))
-        except serial.SerialException:
-            print "Pump Not found"
+        if client.ser is not None:
+            try:
+                client.ser.write(bytes(0))
+            except (serial.SerialException, AttributeError):
+                print "Pump Not found"
 
     def playFromPath(self, path):
         pygame.init()
@@ -219,6 +228,16 @@ class slackky:
             as_user=True)
 
         self.routeMusicFromWeather(weatherId)
+
+        if 'dt' in weatherdata and 'sys' in weatherdata and 'sunrise' in weatherdata['sys'] and 'sunset' in weatherdata['sys']:
+            timeNow = weatherdata['dt']
+            sys = weatherdata['sys']
+            sunset = sys['sunset']
+            sunrise = sys['sunrise']
+
+            if timeNow > sunset or timeNow < sunrise:
+                weatherId = 666
+
         self.passToSerial(speed, weatherId)
 
         slack_client.api_call(
@@ -301,19 +320,13 @@ class slackky:
                                 as_user=True)
 
                             try:
-                                # ser = serial.Serial(
-                                    #"/dev/tty.usbmodem1421", 9600)
-                                # ser.baudrate = 9600
                                 client.ser.write(bytes(message_text.encode()))
-                            except serial.SerialException:
+                            except (serial.SerialException, AttributeError):
                                 print "Pump Not found"
 
                             try:
-                                # ser2 = serial.Serial(
-                                    #"/dev/tty.usbmodem1411", 9600)
-                                # ser2.baudrate = 9600
                                 client.ser2.write(message_text.encode())
-                            except serial.SerialException:
+                            except (serial.SerialException, AttributeError):
                                 print "Light Not found"
 
                             slack_client.api_call(
