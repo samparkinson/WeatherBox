@@ -36,10 +36,10 @@ void loop() {
   int weatherCode;
   int randoChange;
 
-  int one = 332;
-  int two = 333;
-  int three = 334;
-  int four = 331;
+  int one = 326;
+  int two = 327;
+  int three = 328;
+  int four = 325;
   DmxMaster.write(four, 255);
 
 
@@ -67,9 +67,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
           
           delay(10*rando);
       
@@ -79,9 +79,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
           
           delay(150*rando);
       
@@ -91,9 +91,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
   
           delay(1000);
         }
@@ -110,9 +110,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
           /* Update DMX channel 1 to new brightness */
           
           /* Small delay to slow down the ramping */
@@ -124,9 +124,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
           
           delay(150*rando);
       
@@ -136,9 +136,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
   
           delay(1000);
         }
@@ -155,9 +155,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
   
           delay(10*rando);
       
@@ -167,9 +167,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
   
           delay(150*rando);
       
@@ -179,9 +179,9 @@ void loop() {
       
           delay(10);
           
-          DmxMaster.write(one, 0);
-          DmxMaster.write(two, 0);
-          DmxMaster.write(three, 0);
+          DmxMaster.write(one, 65);
+          DmxMaster.write(two, 65);
+          DmxMaster.write(three, 65);
   
           delay(1000);
         }
@@ -382,17 +382,26 @@ void loop() {
           DmxMaster.write(333, rando2);
           DmxMaster.write(334, rando3);
           DmxMaster.write(331, 255);
+
+          DmxMaster.write(one, rando);
+          DmxMaster.write(two, rando2);
+          DmxMaster.write(three, rando3);
+          DmxMaster.write(four, 255);
   
           delay(randoChange);
         }
+          DmxMaster.write(332, 0);
+          DmxMaster.write(333, 0);
+          DmxMaster.write(334, 0);
+          DmxMaster.write(331, 0);
         // Party Mode
       }
     weatherCode = 0;
     //}
 
-    DmxMaster.write(one, 0);
-    DmxMaster.write(two, 0);
-    DmxMaster.write(three, 0);
+    DmxMaster.write(one, 65);
+    DmxMaster.write(two, 65);
+    DmxMaster.write(three, 65);
         
   }
 

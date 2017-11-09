@@ -86,6 +86,10 @@ class slackky:
                 client.ser.write(bytes(0))
             except (serial.SerialException, AttributeError):
                 print "Pump Not found"
+            try:
+                client.ser.write(bytes(0))
+            except (serial.SerialException, AttributeError):
+                print "Pump Not found"
 
     def playFromPath(self, path):
         pygame.init()
@@ -217,7 +221,7 @@ class slackky:
             speed = int(215)
         elif windspeed < 9:
             speed = int(230)
-        elif windspeed > 9:
+        elif windspeed >= 9:
             speed = int(250)
 
         slack_client.api_call(
@@ -229,14 +233,15 @@ class slackky:
 
         self.routeMusicFromWeather(weatherId)
 
-        if 'dt' in weatherdata and 'sys' in weatherdata and 'sunrise' in weatherdata['sys'] and 'sunset' in weatherdata['sys']:
-            timeNow = weatherdata['dt']
-            sys = weatherdata['sys']
-            sunset = sys['sunset']
-            sunrise = sys['sunrise']
+        if weatherdata is not None:
+            if 'dt' in weatherdata and 'sys' in weatherdata and 'sunrise' in weatherdata['sys'] and 'sunset' in weatherdata['sys']:
+                timeNow = weatherdata['dt']
+                sys = weatherdata['sys']
+                sunset = sys['sunset']
+                sunrise = sys['sunrise']
 
-            if timeNow > sunset or timeNow < sunrise:
-                weatherId = 666
+                if timeNow > sunset or timeNow < sunrise:
+                    weatherId = 666
 
         self.passToSerial(speed, weatherId)
 
